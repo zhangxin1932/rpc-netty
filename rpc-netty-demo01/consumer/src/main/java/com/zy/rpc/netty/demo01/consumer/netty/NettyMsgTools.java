@@ -11,19 +11,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class NettyMsgTools {
-    private static Cache<Long, BlockingQueue<Response>> responseMsgCache =
+    private static final Cache<Long, BlockingQueue<Response>> RESPONSE_MSG_CACHE =
             CacheBuilder.newBuilder()
-            .maximumSize(50000)
-            .expireAfterWrite(1000, TimeUnit.SECONDS)
+            .maximumSize(100000)
+            .expireAfterWrite(50, TimeUnit.SECONDS)
             .build();
 
     public static void initReceiveMsg(Long requestId) {
-        responseMsgCache.put(requestId, new LinkedBlockingQueue<>(1));
+        RESPONSE_MSG_CACHE.put(requestId, new LinkedBlockingQueue<>(1));
     }
 
     public static void setResponse(String response) {
         Response result = JSON.parseObject(response, Response.class);
-        BlockingQueue<Response> queue = responseMsgCache.getIfPresent(result.getRequestId());
+        BlockingQueue<Response> queue = RESPONSE_MSG_CACHE.getIfPresent(result.getRequestId());
         if (Objects.nonNull(queue)) {
             queue.add(result);
         }
@@ -31,9 +31,9 @@ public class NettyMsgTools {
 
     public static Response getResponse(Long requestId) {
         try {
-            BlockingQueue<Response> queue = responseMsgCache.getIfPresent(requestId);
+            BlockingQueue<Response> queue = RESPONSE_MSG_CACHE.getIfPresent(requestId);
             Response msg = Objects.requireNonNull(queue).poll(3000, TimeUnit.MILLISECONDS);
-            responseMsgCache.invalidate(requestId);
+            RESPONSE_MSG_CACHE.invalidate(requestId);
             return msg;
         } catch (Throwable e) {
             Response response = new Response();

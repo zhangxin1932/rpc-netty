@@ -79,7 +79,6 @@ public class NettyClient {
         future.addListener((FutureListener<Channel>) channelFuture -> {
             Channel channel = channelFuture.getNow();
             channel.writeAndFlush(JSON.toJSONString(request));
-            // 连接放回连接池，这里一定记得放回去
             simpleChannelPool.release(channel);
         });
 
