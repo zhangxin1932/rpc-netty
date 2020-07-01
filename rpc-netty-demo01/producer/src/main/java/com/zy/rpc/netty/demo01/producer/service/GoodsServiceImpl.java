@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GoodsServiceImpl implements IGoodsService {
+    @Override
     public String getGoodsName(Integer id) {
         return String.format("goodsName: %s", id);
     }

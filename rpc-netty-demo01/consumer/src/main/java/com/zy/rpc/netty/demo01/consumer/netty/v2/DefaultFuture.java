@@ -35,6 +35,8 @@ public class DefaultFuture extends CompletableFuture<Object> {
                 } else {
                     future.completeExceptionally(response.getE());
                 }
+            } else {
+                throw new RuntimeException("no future in Future_Map");
             }
         } finally {
             CHANNEL_MAP.remove(response.getRequestId());

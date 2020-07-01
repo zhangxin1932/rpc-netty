@@ -4,6 +4,7 @@ import com.zy.rpc.netty.demo01.common.IGoodsService;
 import com.zy.rpc.netty.demo01.common.netty.Request;
 import com.zy.rpc.netty.demo01.common.netty.Response;
 import com.zy.rpc.netty.demo01.consumer.netty.v1.NettyClientV1;
+import com.zy.rpc.netty.demo01.consumer.netty.v2.JDKProxy;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.NettyClientV2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,5 +54,17 @@ public class NettyController {
         request.setArgs(new Object[]{id});
         request.setArgsType(new Class<?>[]{Integer.class});
         return nettyClientV2.send(request);
+    }
+
+    /**
+     * 异步转同步
+     * @param id
+     * @return
+     */
+    @RequestMapping("getGoodsNameV3")
+    public String getGoodsNameV3(Integer id) {
+        JDKProxy<IGoodsService> jdkProxy = new JDKProxy<>(IGoodsService.class, nettyClientV2);
+        IGoodsService goodsService = jdkProxy.getProxy();
+        return goodsService.getGoodsName(id);
     }
 }
