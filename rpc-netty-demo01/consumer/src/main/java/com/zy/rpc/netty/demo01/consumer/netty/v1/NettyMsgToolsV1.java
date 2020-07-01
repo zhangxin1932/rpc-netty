@@ -1,4 +1,4 @@
-package com.zy.rpc.netty.demo01.consumer.netty;
+package com.zy.rpc.netty.demo01.consumer.netty.v1;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.cache.Cache;
@@ -10,7 +10,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class NettyMsgTools {
+public class NettyMsgToolsV1 {
     private static final Cache<Long, BlockingQueue<Response>> RESPONSE_MSG_CACHE =
             CacheBuilder.newBuilder()
             .maximumSize(100000)

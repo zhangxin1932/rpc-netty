@@ -1,4 +1,4 @@
-package com.zy.rpc.netty.demo01.consumer.netty;
+package com.zy.rpc.netty.demo01.consumer.netty.v1;
 
 import com.alibaba.fastjson.JSON;
 import com.zy.rpc.netty.demo01.common.netty.Request;
@@ -20,7 +20,7 @@ import io.netty.util.concurrent.FutureListener;
 import java.net.InetSocketAddress;
 import java.util.concurrent.atomic.LongAdder;
 
-public class NettyClient {
+public class NettyClientV1 {
 
     private ChannelPoolMap<InetSocketAddress, SimpleChannelPool> map;
     private static LongAdder REQUEST_ID = new LongAdder();
@@ -31,11 +31,11 @@ public class NettyClient {
     private final NioEventLoopGroup nioEventLoopGroup;
     private final int maxConnections;
 
-    public NettyClient(String host, int port) {
+    public NettyClientV1(String host, int port) {
         this(host, port, 1);
     }
 
-    public NettyClient(String host, int port, int maxConnections) {
+    public NettyClientV1(String host, int port, int maxConnections) {
         this.host = host;
         this.port = port;
         this.client = new Bootstrap();
@@ -61,7 +61,7 @@ public class NettyClient {
                                 .addLast(new StringDecoder())
                                 .addLast(new LengthFieldPrepender(4))
                                 .addLast(new StringEncoder())
-                                .addLast(new ClientHandler());
+                                .addLast(new ClientHandlerV1());
                     }
                 }, maxConnections);
             }
@@ -75,13 +75,13 @@ public class NettyClient {
 
         SimpleChannelPool simpleChannelPool = map.get(new InetSocketAddress(host, port));
         Future<Channel> future = simpleChannelPool.acquire();
-        NettyMsgTools.initReceiveMsg(requestId);
+        NettyMsgToolsV1.initReceiveMsg(requestId);
         future.addListener((FutureListener<Channel>) channelFuture -> {
             Channel channel = channelFuture.getNow();
             channel.writeAndFlush(JSON.toJSONString(request));
             simpleChannelPool.release(channel);
         });
 
-        return NettyMsgTools.getResponse(requestId);
+        return NettyMsgToolsV1.getResponse(requestId);
     }
 }
