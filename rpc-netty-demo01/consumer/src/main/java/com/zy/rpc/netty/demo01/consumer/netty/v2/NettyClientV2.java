@@ -25,6 +25,12 @@ public class NettyClientV2 {
     private volatile Channel channel;
     private static final LongAdder REQUEST_ID = new LongAdder();
 
+    private final RemoteServiceFactory remoteServiceFactory;
+
+    public RemoteServiceFactory getRemoteServiceFactory() {
+        return remoteServiceFactory;
+    }
+
     public NettyClientV2(String host, int port) {
         this.host = host;
         this.port = port;
@@ -32,6 +38,8 @@ public class NettyClientV2 {
         this.nioEventLoopGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors(), new DefaultThreadFactory("clientV2-worker", true));
 
         this.init();
+
+        this.remoteServiceFactory = new RemoteServiceFactory(this);
     }
 
     private void init() {
