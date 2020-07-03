@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Request {
     private Long requestId;
-    private Class<?> classType;
+    private Class<?> interfaceType;
     private String methodName;
     private Object[] args;
     private Class<?>[] argsType;
     private Class<?> returnType;
+    private String implCode;
 }

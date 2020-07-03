@@ -4,7 +4,6 @@ import com.zy.rpc.netty.demo01.common.IGoodsService;
 import com.zy.rpc.netty.demo01.common.netty.Request;
 import com.zy.rpc.netty.demo01.common.netty.Response;
 import com.zy.rpc.netty.demo01.consumer.netty.v1.NettyClientV1;
-import com.zy.rpc.netty.demo01.consumer.netty.v2.JDKProxy;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.NettyClientV2;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.RemoteServiceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class NettyController {
     @RequestMapping("getGoodsNameV1")
     public Response getGoodsNameV1(Integer id) throws ExecutionException, InterruptedException {
         Request request = new Request();
-        request.setClassType(IGoodsService.class);
+        request.setInterfaceType(IGoodsService.class);
         request.setMethodName("getGoodsName");
         request.setArgs(new Object[]{id});
         request.setArgsType(new Class<?>[]{Integer.class});
@@ -50,7 +49,7 @@ public class NettyController {
     @RequestMapping("getGoodsNameV2")
     public CompletableFuture<Object> getGoodsNameV2(Integer id) throws ExecutionException, InterruptedException {
         Request request = new Request();
-        request.setClassType(IGoodsService.class);
+        request.setInterfaceType(IGoodsService.class);
         request.setMethodName("getGoodsName");
         request.setArgs(new Object[]{id});
         request.setArgsType(new Class<?>[]{Integer.class});
@@ -64,8 +63,8 @@ public class NettyController {
      */
     @RequestMapping("getGoodsNameV3")
     public String getGoodsNameV3(Integer id) {
-        JDKProxy<IGoodsService> jdkProxy = new JDKProxy<>(IGoodsService.class, nettyClientV2);
-        IGoodsService goodsService = jdkProxy.getProxy();
+        RemoteServiceFactory remoteServiceFactory = nettyClientV2.getRemoteServiceFactory();
+        IGoodsService goodsService = remoteServiceFactory.getService(IGoodsService.class, "goodsServiceV1Impl");
         return goodsService.getGoodsName(id);
     }
 
@@ -77,7 +76,7 @@ public class NettyController {
     @RequestMapping("getGoodsNameV4")
     public String getGoodsNameV4(Integer id) {
         RemoteServiceFactory remoteServiceFactory = nettyClientV2.getRemoteServiceFactory();
-        IGoodsService goodsService = remoteServiceFactory.getService(IGoodsService.class);
+        IGoodsService goodsService = remoteServiceFactory.getService(IGoodsService.class, "goodsServiceV2Impl");
         return goodsService.getGoodsName(id);
     }
 }
