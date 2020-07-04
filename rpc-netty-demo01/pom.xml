@@ -23,6 +23,8 @@
         <fastjson.version>1.2.68</fastjson.version>
         <netty.version>4.1.48.Final</netty.version>
         <guava.version>29.0-jre</guava.version>
+        <cglib.version>3.3.0</cglib.version>
+        <javassist.version>3.27.0-GA</javassist.version>
     </properties>
 
     <dependencyManagement>
@@ -51,6 +53,16 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,6 +1,7 @@
 package com.zy.rpc.netty.demo01.consumer.controller;
 
 import com.zy.rpc.netty.demo01.common.IGoodsService;
+import com.zy.rpc.netty.demo01.common.netty.ProxyFactory;
 import com.zy.rpc.netty.demo01.common.netty.Request;
 import com.zy.rpc.netty.demo01.common.netty.Response;
 import com.zy.rpc.netty.demo01.consumer.netty.v1.NettyClientV1;
@@ -77,6 +78,20 @@ public class NettyController {
     public String getGoodsNameV4(Integer id) {
         RemoteServiceFactory remoteServiceFactory = nettyClientV2.getRemoteServiceFactory();
         IGoodsService goodsService = remoteServiceFactory.getService(IGoodsService.class, "goodsServiceV2Impl");
+        return goodsService.getGoodsName(id);
+    }
+
+    @RequestMapping("getGoodsNameV5")
+    public String getGoodsNameV5(Integer id) {
+        RemoteServiceFactory remoteServiceFactory = nettyClientV2.getRemoteServiceFactory();
+        IGoodsService goodsService = remoteServiceFactory.getService(IGoodsService.class, "goodsServiceV2Impl", ProxyFactory.Type.CGLIB);
+        return goodsService.getGoodsName(id);
+    }
+
+    @RequestMapping("getGoodsNameV6")
+    public String getGoodsNameV6(Integer id) {
+        RemoteServiceFactory remoteServiceFactory = nettyClientV2.getRemoteServiceFactory();
+        IGoodsService goodsService = remoteServiceFactory.getService(IGoodsService.class, "goodsServiceV2Impl", ProxyFactory.Type.JAVASSIST);
         return goodsService.getGoodsName(id);
     }
 }

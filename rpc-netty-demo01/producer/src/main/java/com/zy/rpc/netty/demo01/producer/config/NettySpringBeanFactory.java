@@ -4,6 +4,7 @@ import com.zy.rpc.netty.demo01.common.netty.RpcException;
 import com.zy.rpc.netty.demo01.common.netty.RpcImplement;
 import com.zy.rpc.netty.demo01.common.netty.RpcServiceKey;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
@@ -14,7 +15,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class NettySpringBeanFactory implements ApplicationContextAware, ApplicationListener<ApplicationContextEvent> {
+public class NettySpringBeanFactory implements ApplicationContextAware, ApplicationListener<ApplicationContextEvent>, DisposableBean {
 
     private static final Map<RpcServiceKey, Object> NETTY_SPRING_BEAN_MAP = new ConcurrentHashMap<>();
     private ApplicationContext applicationContext;
@@ -45,11 +46,17 @@ public class NettySpringBeanFactory implements ApplicationContextAware, Applicat
                 }
                 NETTY_SPRING_BEAN_MAP.put(rpcServiceKey, bean);
             }
+            // TODO 可以在这里启动 NettyServer
         }
     }
 
     public static Object getBean(Class<?> interfaceType, String implCode) {
         RpcServiceKey rpcServiceKey = RpcServiceKey.getInstance(interfaceType, implCode);
         return NETTY_SPRING_BEAN_MAP.get(rpcServiceKey);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        // TODO 可以在这里销毁 NettyServer, 断开各种连接
     }
 }

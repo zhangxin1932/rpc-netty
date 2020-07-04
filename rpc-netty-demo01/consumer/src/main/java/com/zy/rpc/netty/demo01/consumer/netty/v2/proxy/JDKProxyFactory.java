@@ -1,27 +1,21 @@
-package com.zy.rpc.netty.demo01.consumer.netty.v2;
+package com.zy.rpc.netty.demo01.consumer.netty.v2.proxy;
 
 import com.zy.rpc.netty.demo01.common.netty.Request;
+import com.zy.rpc.netty.demo01.consumer.netty.v2.NettyClientV2;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class JDKProxy<T> implements InvocationHandler {
+public class JDKProxyFactory<T> extends AbstractProxyFactory<T> implements InvocationHandler {
 
-    private final NettyClientV2 nettyClientV2;
-
-    private final Class<T> interfaceType;
-
-    private final String implCode;
-
-    public JDKProxy(Class<T> interfaceType, NettyClientV2 nettyClientV2, String implCode) {
-        this.interfaceType = interfaceType;
-        this.nettyClientV2 = nettyClientV2;
-        this.implCode = implCode;
+    public JDKProxyFactory(Class<T> interfaceType, NettyClientV2 nettyClientV2, String implCode) {
+        super(interfaceType, nettyClientV2, implCode);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    public T getProxy() {
+    public T getProxy() throws Exception {
         return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
                 new Class[]{interfaceType},
                 this);
@@ -29,9 +23,14 @@ public class JDKProxy<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        String methodName = method.getName();
+        if (DEFAULT_METHODS.contains(methodName)) {
+            return methodName;
+        }
+
         Request request = new Request();
         request.setInterfaceType(interfaceType);
-        request.setMethodName(method.getName());
+        request.setMethodName(methodName);
         request.setArgs(args);
         request.setArgsType(method.getParameterTypes());
         request.setImplCode(implCode);
