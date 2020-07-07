@@ -7,32 +7,42 @@ import com.zy.rpc.netty.demo01.producer.config.NettySpringBeanFactory;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.DefaultThreadFactory;
 import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutorService;
 
 @ChannelHandler.Sharable
 public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
+    private static final ExecutorService EXECUTOR_SERVICE = new DefaultEventExecutorGroup(
+            Runtime.getRuntime().availableProcessors() * 2,
+            new DefaultThreadFactory("NettyServerHandler", true)
+    );
+
     @Override
     public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        Request request = JSON.parseObject(msg, Request.class);
-        Long requestId = request.getRequestId();
-        Class<?> classType = request.getInterfaceType();
-        String methodName = request.getMethodName();
-        Class<?>[] argsType = request.getArgsType();
-        Object[] args = request.getArgs();
+        EXECUTOR_SERVICE.submit(() -> {
+            Request request = JSON.parseObject(msg, Request.class);
+            Long requestId = request.getRequestId();
+            Class<?> classType = request.getInterfaceType();
+            String methodName = request.getMethodName();
+            Class<?>[] argsType = request.getArgsType();
+            Object[] args = request.getArgs();
 
-        Response response = new Response();
-        response.setRequestId(requestId);
-        try {
-            Object bean = NettySpringBeanFactory.getBean(request.getInterfaceType(), request.getImplCode());
-            Method method = ReflectionUtils.findMethod(classType, methodName, argsType);
-            Object result = method.invoke(bean, args);
-            response.setResult(result);
-        } catch (Throwable e) {
-            response.setE(e);
-        }
+            Response response = new Response();
+            response.setRequestId(requestId);
+            try {
+                Object bean = NettySpringBeanFactory.getBean(request.getInterfaceType(), request.getImplCode());
+                Method method = ReflectionUtils.findMethod(classType, methodName, argsType);
+                Object result = method.invoke(bean, args);
+                response.setResult(result);
+            } catch (Throwable e) {
+                response.setE(e);
+            }
 
-        ctx.writeAndFlush(JSON.toJSONString(response));
+            ctx.channel().writeAndFlush(JSON.toJSONString(response));
+        });
     }
 }
