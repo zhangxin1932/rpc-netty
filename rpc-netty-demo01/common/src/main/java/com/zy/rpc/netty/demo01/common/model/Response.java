@@ -1,4 +1,4 @@
-package com.zy.rpc.netty.demo01.common.netty;
+package com.zy.rpc.netty.demo01.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

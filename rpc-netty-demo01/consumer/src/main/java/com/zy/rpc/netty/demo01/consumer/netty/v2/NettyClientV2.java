@@ -1,7 +1,7 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v2;
 
 import com.alibaba.fastjson.JSON;
-import com.zy.rpc.netty.demo01.common.netty.Request;
+import com.zy.rpc.netty.demo01.common.model.Request;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

@@ -1,8 +1,8 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v1;
 
 import com.alibaba.fastjson.JSON;
-import com.zy.rpc.netty.demo01.common.netty.Request;
-import com.zy.rpc.netty.demo01.common.netty.Response;
+import com.zy.rpc.netty.demo01.common.model.Request;
+import com.zy.rpc.netty.demo01.common.model.Response;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;

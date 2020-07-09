@@ -1,6 +1,6 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v2.proxy;
 
-import com.zy.rpc.netty.demo01.common.netty.Request;
+import com.zy.rpc.netty.demo01.common.model.Request;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.NettyClientV2;
 
 import java.lang.reflect.InvocationHandler;

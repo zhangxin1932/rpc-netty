@@ -1,8 +1,8 @@
 package com.zy.rpc.netty.demo01.producer.netty;
 
 import com.alibaba.fastjson.JSON;
-import com.zy.rpc.netty.demo01.common.netty.Request;
-import com.zy.rpc.netty.demo01.common.netty.Response;
+import com.zy.rpc.netty.demo01.common.model.Request;
+import com.zy.rpc.netty.demo01.common.model.Response;
 import com.zy.rpc.netty.demo01.producer.config.NettySpringBeanFactory;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

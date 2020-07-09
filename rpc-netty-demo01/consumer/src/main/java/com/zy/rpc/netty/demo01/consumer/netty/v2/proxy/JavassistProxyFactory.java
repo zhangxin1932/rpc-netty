@@ -1,8 +1,7 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v2.proxy;
 
-import com.zy.rpc.netty.demo01.common.netty.Request;
+import com.zy.rpc.netty.demo01.common.model.Request;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.NettyClientV2;
-import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.Proxy;
 import javassist.util.proxy.ProxyFactory;

@@ -1,4 +1,4 @@
-package com.zy.rpc.netty.demo01.common.netty;
+package com.zy.rpc.netty.demo01.common.exception;
 
 public class RpcException extends RuntimeException {
     public RpcException(String message) {

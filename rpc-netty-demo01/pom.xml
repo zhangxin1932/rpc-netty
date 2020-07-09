@@ -25,6 +25,7 @@
         <guava.version>29.0-jre</guava.version>
         <cglib.version>3.3.0</cglib.version>
         <javassist.version>3.27.0-GA</javassist.version>
+        <hessian.version>4.0.38</hessian.version>
     </properties>
 
     <dependencyManagement>
@@ -63,6 +64,11 @@
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
                 <version>${javassist.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.caucho</groupId>
+                <artifactId>hessian</artifactId>
+                <version>${hessian.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

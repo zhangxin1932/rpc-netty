@@ -1,6 +1,6 @@
 package com.zy.rpc.netty.demo01.producer.config;
 
-import com.zy.rpc.netty.demo01.common.netty.RpcException;
+import com.zy.rpc.netty.demo01.common.exception.RpcException;
 import com.zy.rpc.netty.demo01.common.netty.RpcImplement;
 import com.zy.rpc.netty.demo01.common.netty.RpcServiceKey;
 import org.springframework.beans.BeansException;

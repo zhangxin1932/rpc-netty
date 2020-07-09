@@ -3,7 +3,7 @@ package com.zy.rpc.netty.demo01.consumer.netty.v1;
 import com.alibaba.fastjson.JSON;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.zy.rpc.netty.demo01.common.netty.Response;
+import com.zy.rpc.netty.demo01.common.model.Response;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
