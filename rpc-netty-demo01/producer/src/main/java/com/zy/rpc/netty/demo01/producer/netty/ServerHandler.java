@@ -1,6 +1,6 @@
 package com.zy.rpc.netty.demo01.producer.netty;
 
-import com.alibaba.fastjson.JSON;
+import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2Response;
 import com.zy.rpc.netty.demo01.common.model.Request;
 import com.zy.rpc.netty.demo01.common.model.Response;
 import com.zy.rpc.netty.demo01.producer.config.NettySpringBeanFactory;
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 
 @ChannelHandler.Sharable
-public class ServerHandler extends SimpleChannelInboundHandler<String> {
+public class ServerHandler extends SimpleChannelInboundHandler<Object> {
 
     private static final ExecutorService EXECUTOR_SERVICE = new DefaultEventExecutorGroup(
             Runtime.getRuntime().availableProcessors() * 2,
@@ -22,9 +22,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     );
 
     @Override
-    public void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+    public void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         EXECUTOR_SERVICE.submit(() -> {
-            Request request = JSON.parseObject(msg, Request.class);
+            // Request request = JSON.parseObject(msg, Request.class);
+            Request request = (Request) msg;
             Long requestId = request.getRequestId();
             Class<?> classType = request.getInterfaceType();
             String methodName = request.getMethodName();
@@ -42,7 +43,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
                 response.setE(e);
             }
 
-            ctx.channel().writeAndFlush(JSON.toJSONString(response));
+            // ctx.channel().writeAndFlush(JSON.toJSONString(response));
+            ctx.channel().writeAndFlush(new Hessian2Response(response));
         });
     }
 }

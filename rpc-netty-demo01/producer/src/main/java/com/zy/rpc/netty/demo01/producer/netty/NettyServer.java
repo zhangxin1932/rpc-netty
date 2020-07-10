@@ -1,6 +1,9 @@
 package com.zy.rpc.netty.demo01.producer.netty;
 
+import com.zy.rpc.netty.demo01.common.codec.NettyDecoder;
+import com.zy.rpc.netty.demo01.common.codec.NettyEncoder;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -34,14 +37,19 @@ public class NettyServer {
             this.server.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
+                    .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                     .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
                         protected void initChannel(NioSocketChannel ch) throws Exception {
-                            ch.pipeline()
+                            /*ch.pipeline()
                                     .addLast(new LengthFieldBasedFrameDecoder(409600, 0, 4, 0, 4))
                                     .addLast(new StringDecoder())
                                     .addLast(new LengthFieldPrepender(4))
                                     .addLast(new StringEncoder())
+                                    .addLast(new ServerHandler());*/
+                            ch.pipeline()
+                                    .addLast(new NettyEncoder())
+                                    .addLast(new NettyDecoder(4096, 0, 4, 0, 4))
                                     .addLast(new ServerHandler());
                         }
                     });

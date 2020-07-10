@@ -1,7 +1,7 @@
 package com.zy.rpc.netty.demo01.consumer.controller;
 
 import com.zy.rpc.netty.demo01.common.IGoodsService;
-import com.zy.rpc.netty.demo01.common.netty.ProxyFactory;
+import com.zy.rpc.netty.demo01.common.core.ProxyFactory;
 import com.zy.rpc.netty.demo01.common.model.Request;
 import com.zy.rpc.netty.demo01.common.model.Response;
 import com.zy.rpc.netty.demo01.consumer.netty.v1.NettyClientV1;

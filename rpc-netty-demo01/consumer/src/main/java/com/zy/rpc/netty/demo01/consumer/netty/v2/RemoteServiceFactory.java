@@ -1,8 +1,8 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v2;
 
-import com.zy.rpc.netty.demo01.common.netty.ProxyFactory;
+import com.zy.rpc.netty.demo01.common.core.ProxyFactory;
 import com.zy.rpc.netty.demo01.common.exception.RpcException;
-import com.zy.rpc.netty.demo01.common.netty.RpcServiceKey;
+import com.zy.rpc.netty.demo01.common.core.RpcServiceKey;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.proxy.CglibProxyFactory;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.proxy.JDKProxyFactory;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.proxy.JavassistProxyFactory;

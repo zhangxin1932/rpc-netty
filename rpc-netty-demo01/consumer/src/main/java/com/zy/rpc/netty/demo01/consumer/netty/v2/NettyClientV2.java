@@ -1,15 +1,15 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v2;
 
-import com.alibaba.fastjson.JSON;
+import com.zy.rpc.netty.demo01.common.codec.NettyDecoder;
+import com.zy.rpc.netty.demo01.common.codec.NettyEncoder;
+import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2Request;
 import com.zy.rpc.netty.demo01.common.model.Request;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -46,14 +46,19 @@ public class NettyClientV2 {
         this.client.group(nioEventLoopGroup)
                 .channel(NioSocketChannel.class)
                 .option(ChannelOption.TCP_NODELAY, true)
+                .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ch.pipeline()
+                        /*ch.pipeline()
                                 .addLast(new LengthFieldBasedFrameDecoder(409600, 0, 4, 0, 4))
                                 .addLast(new StringDecoder())
                                 .addLast(new LengthFieldPrepender(4))
                                 .addLast(new StringEncoder())
+                                .addLast(new ClientHandlerV2());*/
+                        ch.pipeline()
+                                .addLast(new NettyEncoder())
+                                .addLast(new NettyDecoder(4096, 0, 4, 0, 4))
                                 .addLast(new ClientHandlerV2());
                     }
                 });
@@ -97,7 +102,8 @@ public class NettyClientV2 {
         request.setRequestId(requestId);
         Channel channel = getChannel();
         DefaultFuture future = new DefaultFuture(channel, request);
-        channel.writeAndFlush(JSON.toJSONString(request));
+        // channel.writeAndFlush(JSON.toJSONString(request));
+        channel.writeAndFlush(new Hessian2Request(request));
         return future;
     }
 

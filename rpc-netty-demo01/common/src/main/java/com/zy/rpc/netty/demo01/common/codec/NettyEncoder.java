@@ -16,10 +16,11 @@ public class NettyEncoder extends MessageToByteEncoder<Object> {
         if (Objects.isNull(codec)) {
             throw new RpcException("codec cannot be null.");
         } else {
+            ByteBufOutputStream byteBufOutputStream = new ByteBufOutputStream(out);
             out.writeInt(0);
             out.writeByte(codec.getCode());
-            codec.encode(new ByteBufOutputStream(out), msg);
-            out.setIndex(0, out.writerIndex() - 4);
+            codec.encode(byteBufOutputStream, msg);
+            out.setInt(0, out.writerIndex() - 4);
         }
     }
 }

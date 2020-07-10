@@ -1,7 +1,7 @@
 package com.zy.rpc.netty.demo01.producer.service;
 
 import com.zy.rpc.netty.demo01.common.IGoodsService;
-import com.zy.rpc.netty.demo01.common.netty.RpcImplement;
+import com.zy.rpc.netty.demo01.common.core.RpcImplement;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Request {
+public class Request implements Serializable {
     private Long requestId;
     private Class<?> interfaceType;
     private String methodName;

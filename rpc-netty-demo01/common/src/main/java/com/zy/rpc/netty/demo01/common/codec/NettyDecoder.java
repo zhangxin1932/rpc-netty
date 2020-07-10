@@ -23,7 +23,6 @@ public class NettyDecoder extends LengthFieldBasedFrameDecoder {
             Codec codec = CodecFactory.getCodec(code);
             return codec.decode(new ByteBufInputStream(byteBuf));
         } finally {
-            // FIXME 这里应该 release 么? 后续有其他继承了 SimpleChannelInboundHandler 的呢?
             byteBuf.release();
         }
     }

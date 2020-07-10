@@ -1,11 +1,11 @@
-package com.zy.rpc.netty.demo01.common.codec;
+package com.zy.rpc.netty.demo01.common.codec.hessian2;
 
-import com.zy.rpc.netty.demo01.common.model.Hessian2Response;
+import com.zy.rpc.netty.demo01.common.codec.AbstractResponseCodec;
 import com.zy.rpc.netty.demo01.common.model.Response;
 import com.zy.rpc.netty.demo01.common.serialize.Serialization;
 import com.zy.rpc.netty.demo01.common.serialize.SerializationFactory;
 
-public class Hessian2ResponseCodec extends AbstractResponseCodec{
+public class Hessian2ResponseCodec extends AbstractResponseCodec {
     @Override
     protected Serialization getSerialization() {
         return SerializationFactory.getSerialization(this.getCode());

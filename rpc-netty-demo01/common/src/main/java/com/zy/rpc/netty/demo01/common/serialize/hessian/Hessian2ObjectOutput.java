@@ -73,6 +73,6 @@ public class Hessian2ObjectOutput implements ObjectOutput {
 
     @Override
     public void flushBuffer() throws IOException {
-        output.flushBuffer();
+        output.flush();
     }
 }
