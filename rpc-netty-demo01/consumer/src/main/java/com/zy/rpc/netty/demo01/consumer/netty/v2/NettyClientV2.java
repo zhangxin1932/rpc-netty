@@ -5,7 +5,6 @@ import com.zy.rpc.netty.demo01.common.codec.NettyEncoder;
 import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2Request;
 import com.zy.rpc.netty.demo01.common.model.Request;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -50,12 +49,6 @@ public class NettyClientV2 {
                 .handler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        /*ch.pipeline()
-                                .addLast(new LengthFieldBasedFrameDecoder(409600, 0, 4, 0, 4))
-                                .addLast(new StringDecoder())
-                                .addLast(new LengthFieldPrepender(4))
-                                .addLast(new StringEncoder())
-                                .addLast(new ClientHandlerV2());*/
                         ch.pipeline()
                                 .addLast(new NettyEncoder())
                                 .addLast(new NettyDecoder(4096, 0, 4, 0, 4))
@@ -102,7 +95,6 @@ public class NettyClientV2 {
         request.setRequestId(requestId);
         Channel channel = getChannel();
         DefaultFuture future = new DefaultFuture(channel, request);
-        // channel.writeAndFlush(JSON.toJSONString(request));
         channel.writeAndFlush(new Hessian2Request(request));
         return future;
     }

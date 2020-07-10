@@ -9,10 +9,6 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.concurrent.DefaultThreadFactory;
 
 public class NettyServer {
@@ -41,15 +37,9 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
                         protected void initChannel(NioSocketChannel ch) throws Exception {
-                            /*ch.pipeline()
-                                    .addLast(new LengthFieldBasedFrameDecoder(409600, 0, 4, 0, 4))
-                                    .addLast(new StringDecoder())
-                                    .addLast(new LengthFieldPrepender(4))
-                                    .addLast(new StringEncoder())
-                                    .addLast(new ServerHandler());*/
                             ch.pipeline()
                                     .addLast(new NettyEncoder())
-                                    .addLast(new NettyDecoder(4096, 0, 4, 0, 4))
+                                    .addLast(new NettyDecoder(409600, 0, 4, 0, 4))
                                     .addLast(new ServerHandler());
                         }
                     });
