@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -53,6 +54,7 @@ public class NettyController {
     public List<String> getGoodsNameV6(@RequestBody StuDTO stuDTO) {
         RemoteServiceFactory remoteServiceFactory = nettyClientV2.getRemoteServiceFactory();
         IGoodsService goodsService = remoteServiceFactory.getService(IGoodsService.class, "goodsServiceV2Impl", ProxyFactory.Type.JAVASSIST);
+        stuDTO.getMap().put(99L, LocalDateTime.now());
         return goodsService.getGoodsName(stuDTO);
     }
 }

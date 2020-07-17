@@ -1,7 +1,5 @@
 package com.zy.rpc.netty.demo01.common.utils;
 
-import java.util.*;
-
 public final class StringTools {
 
     public static final String EMPTY = "";

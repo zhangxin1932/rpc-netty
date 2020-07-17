@@ -2,19 +2,17 @@ package com.zy.rpc.netty.demo01.common.serialize.hessian;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.zy.rpc.netty.demo01.common.serialize.ObjectInput;
-
+import com.zy.rpc.netty.demo01.common.serialize.hessian.java8.Hessian2SerializerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 
-/**
- * Hessian2 Object input.
- */
 public class Hessian2ObjectInput implements ObjectInput {
     private final Hessian2Input input;
 
     public Hessian2ObjectInput(InputStream is) {
         input = new Hessian2Input(is);
+        input.setSerializerFactory(Hessian2SerializerFactory.INSTANCE);
     }
 
     @Override

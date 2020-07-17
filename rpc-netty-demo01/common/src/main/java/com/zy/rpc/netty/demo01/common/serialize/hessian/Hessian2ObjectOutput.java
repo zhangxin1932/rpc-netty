@@ -2,18 +2,16 @@ package com.zy.rpc.netty.demo01.common.serialize.hessian;
 
 import com.caucho.hessian.io.Hessian2Output;
 import com.zy.rpc.netty.demo01.common.serialize.ObjectOutput;
-
+import com.zy.rpc.netty.demo01.common.serialize.hessian.java8.Hessian2SerializerFactory;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/**
- * Hessian2 Object output.
- */
 public class Hessian2ObjectOutput implements ObjectOutput {
     private final Hessian2Output output;
 
     public Hessian2ObjectOutput(OutputStream os) {
         output = new Hessian2Output(os);
+        output.setSerializerFactory(Hessian2SerializerFactory.INSTANCE);
     }
 
     @Override
