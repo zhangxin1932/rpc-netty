@@ -1,18 +1,19 @@
 package com.zy.rpc.netty.demo01.common.codec.hessian2;
 
-import com.zy.rpc.netty.demo01.common.codec.AbstractRequestCodec;
+import com.zy.rpc.netty.demo01.common.codec.Codec;
 import com.zy.rpc.netty.demo01.common.model.Request;
+import com.zy.rpc.netty.demo01.common.serialize.ObjectInput;
+import com.zy.rpc.netty.demo01.common.serialize.ObjectOutput;
 import com.zy.rpc.netty.demo01.common.serialize.Serialization;
-import com.zy.rpc.netty.demo01.common.serialize.SerializationFactory;
 
-public class Hessian2RequestCodec extends AbstractRequestCodec {
-    @Override
-    protected Serialization getSerialization() {
-        return SerializationFactory.getSerialization(this.getCode());
-    }
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public class Hessian2RequestCodec implements Codec {
 
     @Override
-    protected Request getRequest(Object msg) {
+    public Request getRequest(Object msg) {
         Hessian2Request hessian2Request = (Hessian2Request) msg;
         return hessian2Request.getRequest();
     }
@@ -26,4 +27,29 @@ public class Hessian2RequestCodec extends AbstractRequestCodec {
     public Class<?> getRpcMsgClass() {
         return Hessian2Request.class;
     }
+
+    @Override
+    public void encode(OutputStream outputStream, Object msg) {
+        try {
+            Serialization serialization = this.getSerialization();
+            ObjectOutput serialize = serialization.serialize(outputStream);
+            serialize.writeObject(this.getRequest(msg));
+            serialize.flushBuffer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Object decode(InputStream inputStream) {
+        try {
+            Serialization serialization = this.getSerialization();
+            ObjectInput deserialize = serialization.deserialize(inputStream);
+            return deserialize.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

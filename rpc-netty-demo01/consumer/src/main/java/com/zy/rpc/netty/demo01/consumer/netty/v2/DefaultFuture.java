@@ -3,7 +3,6 @@ package com.zy.rpc.netty.demo01.consumer.netty.v2;
 import com.zy.rpc.netty.demo01.common.model.Request;
 import com.zy.rpc.netty.demo01.common.model.Response;
 import io.netty.channel.Channel;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;

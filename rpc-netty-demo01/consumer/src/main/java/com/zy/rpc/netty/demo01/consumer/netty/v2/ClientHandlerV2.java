@@ -6,7 +6,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.DefaultThreadFactory;
-
 import java.util.concurrent.ExecutorService;
 
 @ChannelHandler.Sharable
@@ -19,8 +18,6 @@ public class ClientHandlerV2 extends SimpleChannelInboundHandler<Object> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
-        EXECUTOR_SERVICE.submit(() -> {
-            DefaultFuture.received(channelHandlerContext.channel(), (Response) msg);
-        });
+        EXECUTOR_SERVICE.submit(() -> DefaultFuture.received(channelHandlerContext.channel(), (Response) msg));
     }
 }

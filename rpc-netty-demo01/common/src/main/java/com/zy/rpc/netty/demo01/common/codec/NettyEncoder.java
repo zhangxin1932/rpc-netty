@@ -20,6 +20,11 @@ public class NettyEncoder extends MessageToByteEncoder<Object> {
             out.writeInt(0);
             out.writeByte(codec.getCode());
             codec.encode(byteBufOutputStream, msg);
+
+            // FIXME 这两行新增的, 评估下是否可行
+            byteBufOutputStream.flush();
+            byteBufOutputStream.close();
+
             out.setInt(0, out.writerIndex() - 4);
         }
     }

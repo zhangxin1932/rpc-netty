@@ -1,6 +1,7 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v2.proxy;
 
 import com.zy.rpc.netty.demo01.common.model.Request;
+import com.zy.rpc.netty.demo01.common.utils.ReflectUtils;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.NettyClientV2;
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.Proxy;
@@ -17,14 +18,6 @@ public class JavassistProxyFactory<T> extends AbstractProxyFactory<T> implements
     @SuppressWarnings("unchecked")
     public T getProxy() throws Exception {
         ProxyFactory proxyFactory = new ProxyFactory();
-
-        /*proxyFactory.setFilter(new MethodFilter() {
-            @Override
-            public boolean isHandled(Method m) {
-                return false;
-            }
-        });*/
-
         proxyFactory.setInterfaces(new Class<?>[] {interfaceType});
         Proxy instance = (Proxy) proxyFactory.createClass().newInstance();
         instance.setHandler(this);
@@ -39,10 +32,10 @@ public class JavassistProxyFactory<T> extends AbstractProxyFactory<T> implements
         }
 
         Request request = new Request();
-        request.setInterfaceType(interfaceType);
+        request.setInterfaceName(ReflectUtils.getDesc(interfaceType));
         request.setMethodName(methodName);
         request.setArgs(args);
-        request.setArgsType(method.getParameterTypes());
+        request.setArgsTypes(ReflectUtils.getDesc(method.getParameterTypes()));
         request.setImplCode(implCode);
 
         // FIXME 这里是异步转同步的 方式

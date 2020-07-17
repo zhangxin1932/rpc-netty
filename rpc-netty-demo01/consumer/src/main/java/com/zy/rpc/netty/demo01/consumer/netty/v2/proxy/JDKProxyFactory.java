@@ -1,8 +1,8 @@
 package com.zy.rpc.netty.demo01.consumer.netty.v2.proxy;
 
 import com.zy.rpc.netty.demo01.common.model.Request;
+import com.zy.rpc.netty.demo01.common.utils.ReflectUtils;
 import com.zy.rpc.netty.demo01.consumer.netty.v2.NettyClientV2;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -29,10 +29,10 @@ public class JDKProxyFactory<T> extends AbstractProxyFactory<T> implements Invoc
         }
 
         Request request = new Request();
-        request.setInterfaceType(interfaceType);
+        request.setInterfaceName(ReflectUtils.getDesc(interfaceType));
         request.setMethodName(methodName);
         request.setArgs(args);
-        request.setArgsType(method.getParameterTypes());
+        request.setArgsTypes(ReflectUtils.getDesc(method.getParameterTypes()));
         request.setImplCode(implCode);
 
         // FIXME 这里是异步转同步的 方式

@@ -51,7 +51,7 @@ public class NettyClientV2 {
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         ch.pipeline()
                                 .addLast(new NettyEncoder())
-                                .addLast(new NettyDecoder(4096, 0, 4, 0, 4))
+                                .addLast(new NettyDecoder(409600, 0, 4, 0, 4))
                                 .addLast(new ClientHandlerV2());
                     }
                 });
