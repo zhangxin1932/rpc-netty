@@ -1,5 +1,6 @@
 package com.zy.rpc.netty.demo01.producer.netty;
 
+import com.zy.rpc.netty.demo01.common.codec.avro.AvroResponse;
 import com.zy.rpc.netty.demo01.common.codec.gson.GsonResponse;
 import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2Response;
 import com.zy.rpc.netty.demo01.common.model.Request;
@@ -46,8 +47,10 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object> {
                 response.setE(e);
             }
 
-            // ctx.channel().writeAndFlush(new Hessian2Response(response));
-            ctx.channel().writeAndFlush(new GsonResponse(response));
+            ctx.channel().writeAndFlush(new Hessian2Response(response));
+            // ctx.channel().writeAndFlush(new GsonResponse(response));
+            // FIXME Avro 方式的序列化, 还需要再研究, Map 类型及 复杂 java 对象需再研究
+            // ctx.channel().writeAndFlush(new AvroResponse(response));
         });
     }
 }

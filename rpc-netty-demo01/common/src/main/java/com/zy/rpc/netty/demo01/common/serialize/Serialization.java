@@ -19,11 +19,15 @@ public interface Serialization {
         /**
          * Hessian2 序列化 & 反序列化
          */
-        HESSIAN2((byte)2, (byte) 3),
+        HESSIAN2((byte) 2, (byte) 3),
         /**
          * gson 序列化 & 反序列化
          */
-        GSON((byte)4, (byte) 5),
+        GSON((byte) 4, (byte) 5),
+        /**
+         * gson 序列化 & 反序列化
+         */
+        AVRO((byte) 6, (byte) 7),
 
         ;
         private final byte requestCode;

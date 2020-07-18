@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.zy.rpc.netty.demo01.common.serialize.ObjectInput;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 public class GsonObjectInput implements ObjectInput {
@@ -25,12 +24,6 @@ public class GsonObjectInput implements ObjectInput {
     @Override
     public <T> T readObject(Class<T> cls) throws IOException, ClassNotFoundException {
         return read(cls);
-    }
-
-    @Override
-    public <T> T readObject(Class<T> cls, Type type) throws IOException, ClassNotFoundException {
-        // FIXME skip now
-        return null;
     }
 
     @Override

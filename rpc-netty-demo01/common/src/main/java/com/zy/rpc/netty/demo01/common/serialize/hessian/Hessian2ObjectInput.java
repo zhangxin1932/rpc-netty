@@ -5,7 +5,6 @@ import com.zy.rpc.netty.demo01.common.serialize.ObjectInput;
 import com.zy.rpc.netty.demo01.common.serialize.hessian.java8.Hessian2SerializerFactory;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 
 public class Hessian2ObjectInput implements ObjectInput {
     private final Hessian2Input input;
@@ -69,11 +68,6 @@ public class Hessian2ObjectInput implements ObjectInput {
     @SuppressWarnings("unchecked")
     public <T> T readObject(Class<T> cls) throws IOException {
         return (T) input.readObject(cls);
-    }
-
-    @Override
-    public <T> T readObject(Class<T> cls, Type type) throws IOException {
-        return readObject(cls);
     }
 
 }

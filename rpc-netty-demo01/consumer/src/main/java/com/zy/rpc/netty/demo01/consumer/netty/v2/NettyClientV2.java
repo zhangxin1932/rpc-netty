@@ -2,6 +2,7 @@ package com.zy.rpc.netty.demo01.consumer.netty.v2;
 
 import com.zy.rpc.netty.demo01.common.codec.NettyDecoder;
 import com.zy.rpc.netty.demo01.common.codec.NettyEncoder;
+import com.zy.rpc.netty.demo01.common.codec.avro.AvroRequest;
 import com.zy.rpc.netty.demo01.common.codec.gson.GsonRequest;
 import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2Request;
 import com.zy.rpc.netty.demo01.common.model.Request;
@@ -96,8 +97,10 @@ public class NettyClientV2 {
         request.setRequestId(requestId);
         Channel channel = getChannel();
         DefaultFuture future = new DefaultFuture(channel, request);
-        // channel.writeAndFlush(new Hessian2Request(request));
-        channel.writeAndFlush(new GsonRequest(request));
+        channel.writeAndFlush(new Hessian2Request(request));
+        // channel.writeAndFlush(new GsonRequest(request));
+        // FIXME Avro 方式的序列化, 还需要再研究, Map 类型及 复杂 java 对象需再研究
+        // channel.writeAndFlush(new AvroRequest(request));
         return future;
     }
 

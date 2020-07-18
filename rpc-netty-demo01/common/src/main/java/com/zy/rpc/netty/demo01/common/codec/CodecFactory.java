@@ -1,5 +1,7 @@
 package com.zy.rpc.netty.demo01.common.codec;
 
+import com.zy.rpc.netty.demo01.common.codec.avro.AvroRequestCodec;
+import com.zy.rpc.netty.demo01.common.codec.avro.AvroResponseCodec;
 import com.zy.rpc.netty.demo01.common.codec.gson.GsonRequestCodec;
 import com.zy.rpc.netty.demo01.common.codec.gson.GsonResponseCodec;
 import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2RequestCodec;
@@ -29,6 +31,15 @@ public class CodecFactory {
         GsonResponseCodec gsonResponseCodec = new GsonResponseCodec();
         BYTE_SERIALIZATION_MAP.put(gsonResponseCodec.getCode(), gsonResponseCodec);
         CLASS_SERIALIZATION_MAP.put(gsonResponseCodec.getRpcMsgClass(), gsonResponseCodec);
+
+
+        AvroRequestCodec avroRequestCodec = new AvroRequestCodec();
+        BYTE_SERIALIZATION_MAP.put(avroRequestCodec.getCode(), avroRequestCodec);
+        CLASS_SERIALIZATION_MAP.put(avroRequestCodec.getRpcMsgClass(), avroRequestCodec);
+
+        AvroResponseCodec avroResponseCodec = new AvroResponseCodec();
+        BYTE_SERIALIZATION_MAP.put(avroResponseCodec.getCode(), avroResponseCodec);
+        CLASS_SERIALIZATION_MAP.put(avroResponseCodec.getRpcMsgClass(), avroResponseCodec);
     }
 
     public static Codec getCodec(byte code) {
