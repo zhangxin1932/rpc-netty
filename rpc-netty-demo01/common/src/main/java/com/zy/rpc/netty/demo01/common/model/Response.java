@@ -12,6 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 public class Response implements Serializable {
+    private static final long serialVersionUID = -3377934858674584553L;
     private Long requestId;
     private Object result;
     private Throwable e;

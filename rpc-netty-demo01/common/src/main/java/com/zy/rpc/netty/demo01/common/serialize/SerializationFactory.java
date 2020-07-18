@@ -1,5 +1,6 @@
 package com.zy.rpc.netty.demo01.common.serialize;
 
+import com.zy.rpc.netty.demo01.common.serialize.gson.GsonSerialization;
 import com.zy.rpc.netty.demo01.common.serialize.hessian.Hessian2Serialization;
 
 import java.util.HashMap;
@@ -11,6 +12,10 @@ public class SerializationFactory {
         Hessian2Serialization hessian2Serialization = new Hessian2Serialization();
         BYTE_SERIALIZATION_MAP.put(Serialization.Type.HESSIAN2.getRequestCode(), hessian2Serialization);
         BYTE_SERIALIZATION_MAP.put(Serialization.Type.HESSIAN2.getResponseCode(), hessian2Serialization);
+
+        GsonSerialization gsonSerialization = new GsonSerialization();
+        BYTE_SERIALIZATION_MAP.put(Serialization.Type.GSON.getRequestCode(), gsonSerialization);
+        BYTE_SERIALIZATION_MAP.put(Serialization.Type.GSON.getResponseCode(), gsonSerialization);
     }
 
     public static Serialization getSerialization(byte code) {

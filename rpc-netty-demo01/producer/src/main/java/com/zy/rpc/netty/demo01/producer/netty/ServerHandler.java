@@ -1,5 +1,6 @@
 package com.zy.rpc.netty.demo01.producer.netty;
 
+import com.zy.rpc.netty.demo01.common.codec.gson.GsonResponse;
 import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2Response;
 import com.zy.rpc.netty.demo01.common.model.Request;
 import com.zy.rpc.netty.demo01.common.model.Response;
@@ -45,7 +46,8 @@ public class ServerHandler extends SimpleChannelInboundHandler<Object> {
                 response.setE(e);
             }
 
-            ctx.channel().writeAndFlush(new Hessian2Response(response));
+            // ctx.channel().writeAndFlush(new Hessian2Response(response));
+            ctx.channel().writeAndFlush(new GsonResponse(response));
         });
     }
 }

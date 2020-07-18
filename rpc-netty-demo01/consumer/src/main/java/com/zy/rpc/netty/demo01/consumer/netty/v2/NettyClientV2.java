@@ -2,6 +2,7 @@ package com.zy.rpc.netty.demo01.consumer.netty.v2;
 
 import com.zy.rpc.netty.demo01.common.codec.NettyDecoder;
 import com.zy.rpc.netty.demo01.common.codec.NettyEncoder;
+import com.zy.rpc.netty.demo01.common.codec.gson.GsonRequest;
 import com.zy.rpc.netty.demo01.common.codec.hessian2.Hessian2Request;
 import com.zy.rpc.netty.demo01.common.model.Request;
 import io.netty.bootstrap.Bootstrap;
@@ -95,7 +96,8 @@ public class NettyClientV2 {
         request.setRequestId(requestId);
         Channel channel = getChannel();
         DefaultFuture future = new DefaultFuture(channel, request);
-        channel.writeAndFlush(new Hessian2Request(request));
+        // channel.writeAndFlush(new Hessian2Request(request));
+        channel.writeAndFlush(new GsonRequest(request));
         return future;
     }
 

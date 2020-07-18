@@ -36,6 +36,7 @@ public class JavassistProxyFactory<T> extends AbstractProxyFactory<T> implements
         request.setMethodName(methodName);
         request.setArgs(args);
         request.setArgsTypes(ReflectUtils.getDesc(method.getParameterTypes()));
+        request.setReturnType(ReflectUtils.getDesc(method.getReturnType()));
         request.setImplCode(implCode);
 
         // FIXME 这里是异步转同步的 方式

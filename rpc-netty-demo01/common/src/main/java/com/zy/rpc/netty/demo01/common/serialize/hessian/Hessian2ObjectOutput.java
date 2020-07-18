@@ -70,6 +70,11 @@ public class Hessian2ObjectOutput implements ObjectOutput {
     }
 
     @Override
+    public void writeObject(Object obj, Class<?> clazz) throws IOException {
+        // fixme skip now
+    }
+
+    @Override
     public void flushBuffer() throws IOException {
         output.flush();
     }

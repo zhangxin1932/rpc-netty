@@ -16,11 +16,17 @@ public interface Serialization {
     @AllArgsConstructor
     @Getter
     enum Type {
+        /**
+         * Hessian2 序列化 & 反序列化
+         */
         HESSIAN2((byte)2, (byte) 3),
+        /**
+         * gson 序列化 & 反序列化
+         */
+        GSON((byte)4, (byte) 5),
 
         ;
-        private byte requestCode;
-        private byte responseCode;
-
+        private final byte requestCode;
+        private final byte responseCode;
     }
 }

@@ -1,4 +1,4 @@
-package com.zy.rpc.netty.demo01.common.codec.hessian2;
+package com.zy.rpc.netty.demo01.common.codec.gson;
 
 import com.zy.rpc.netty.demo01.common.model.Request;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @Getter
-public class Hessian2Request implements Serializable {
-    private static final long serialVersionUID = 7422528753266842195L;
+public class GsonRequest implements Serializable {
+    private static final long serialVersionUID = -4207894715421276179L;
     private final Request request;
 }
