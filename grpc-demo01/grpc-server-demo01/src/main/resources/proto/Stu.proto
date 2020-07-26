@@ -1,0 +1,54 @@
+// 编写.proto文件参考 --> https://developers.google.cn/protocol-buffers/docs/proto3
+
+// 生成grpc代码 --> 参考 https://github.com/grpc/grpc-java
+// For protobuf-based codegen, you can put your proto files in the
+// src/main/proto and src/test/proto directories along with an appropriate plugin.
+
+syntax = "proto3";
+
+option java_package = "com.zy.grpc.proto.server";
+option java_outer_classname = "Student";
+option java_multiple_files = true;
+
+// 这里的出入参 --> 必须是 message, 不能单独用 int32, string 等基本类型
+service StudentService {
+    // 1.入参是 对象, 出参也是对象
+    rpc QueryStuById(SearchRequest) returns (SearchResponse);
+
+    // 2.入参是 对象, 出参是流
+    rpc QueryStuByIdStream2Resp(SearchRequest) returns (stream StuResponse);
+
+    // 3.入参是 流, 出参是对象: 异步实现
+    rpc QueryStuByIdReqByStream(stream SearchRequest) returns (StuResponseList);
+
+    // 4.入参是 流, 出参也是流: 异步实现
+    rpc QueryStuByIdReqAndResp2Stream(stream StuRequestStream) returns (stream StuResponseStream);
+}
+
+message SearchRequest {
+    string id = 1;
+//    int32 page_number = 2;
+//    int32 result_per_page = 3;
+}
+
+message SearchResponse {
+    string name = 1;
+}
+
+message StuResponse {
+    string id = 1;
+    string name = 2;
+    string age = 3;
+}
+
+message StuResponseList {
+    repeated StuResponse stuResponse = 1;
+}
+
+message StuRequestStream {
+    string req = 1;
+}
+
+message StuResponseStream {
+    string resp = 1;
+}
