@@ -1,6 +1,7 @@
 package com.zy.rpc.netty.demo01.common.core;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Map;
 import java.util.Objects;
@@ -26,5 +27,14 @@ public class RpcServiceKey {
             RPC_SERVICE_KEY_MAP.putIfAbsent(key, rpcServiceKey);
         }
         return rpcServiceKey;
+    }
+
+    @Override
+    public String toString() {
+        return "type:" +
+                type.getName() +
+                "; " +
+                "implCode:" +
+                implCode;
     }
 }

@@ -11,6 +11,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 
+import java.util.Objects;
+
 public class NettyServer {
 
     private final String host;
@@ -49,6 +51,15 @@ public class NettyServer {
         } catch (InterruptedException e) {
             System.out.println("Netty 服务端启动失败 ------------");
             e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        if (Objects.nonNull(bossGroup)) {
+            bossGroup.shutdownGracefully();
+        }
+        if (Objects.nonNull(workerGroup)) {
+            workerGroup.shutdownGracefully();
         }
     }
 }
